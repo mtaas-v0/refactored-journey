@@ -26,11 +26,10 @@ jobs:
       - name: Download Original TeX82 Source Files
         shell: powershell
         run: |
-          # Download tex.web and a pre-bootstrapped tangle.p from CTAN
-          wget http://downloads.freepascal.org/fpc/dist/3.2.2/i386-win32/fpc-3.2.2.i386-win32.exe
+          Invoke-WebRequest -Uri "http://downloads.freepascal.org/fpc/dist/3.2.2/i386-win32/fpc-3.2.2.i386-win32.exe" -OutFile ".\fpc-3.2.2.i386-win32.exe"
           7z x fpc-3.2.2.i386-win32.exe -oC:\fpc-extracted
           (Get-ChildItem -Path "C:\fpc-extracted" -Recurse).FullName
-      
+          
 
       - name: Verify FPC Installation
         run: fpc -iV
