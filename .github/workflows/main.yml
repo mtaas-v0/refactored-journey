@@ -15,10 +15,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install Free Pascal Compiler
-        uses: fpc-actions/setup-fpc@v2
+      - uses: gcarreno/setup-lazarus@v3
         with:
-          fpc-version: '3.2.2'
+          lazarus-version: "stable"
+          include-packages: "Synapse 40.1"
+          with-cache: true
 
       - name: Verify FPC Installation
         run: fpc -iV
