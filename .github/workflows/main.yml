@@ -62,8 +62,8 @@ jobs:
           fpc -Miso -O2 -omf.exe mf.p
           
 
-      - name: Upload Windows Binary Artifact
-        uses: actions/artifacts@v4
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: tex82-windows-binary
           path: .
