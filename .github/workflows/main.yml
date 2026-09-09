@@ -14,11 +14,14 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
-      - name: Install Free Pascal Compiler
-        uses: fpc-actions/setup-fpc@v2
+          
+      # Step 2: Install Lazarus and Free Pascal Compiler (FPC)
+      - name: Install Lazarus & FPC
+        uses: giorgiobailetti/setup-lazarus@v1
         with:
-          fpc-version: '3.2.2'
+          # Define the version of FPC/Lazarus you want to use
+          lazarus-version: 'dist' # 'dist' installs the latest stable release
+
 
       - name: Verify FPC Installation
         run: fpc -iV
@@ -63,8 +66,8 @@ jobs:
           fpc -Miso -O2 -omf.exe mf.p
           
 
-      - name: Upload Windows Binary Artifact
-        uses: actions/artifacts@v4
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: tex82-windows-binary
           path: .
