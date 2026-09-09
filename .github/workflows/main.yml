@@ -27,9 +27,9 @@ jobs:
         shell: powershell
         run: |
           Invoke-WebRequest -Uri "http://downloads.freepascal.org/fpc/dist/3.2.2/i386-win32/fpc-3.2.2.i386-win32.exe" -OutFile ".\fpc-3.2.2.i386-win32.exe"
-          7z x fpc-3.2.2.i386-win32.exe -oC:\fpc-extracted
+          . .\fpc-3.2.2.i386-win32.exe /VERYSILENT /SUPPRESSMSGBOXES /DIR="C:\fpc-extracted"
           (Get-ChildItem -Path "C:\fpc-extracted" -Recurse).FullName
-          
+      
 
       - name: Verify FPC Installation
         run: fpc -iV
@@ -39,11 +39,12 @@ jobs:
         run: |
           
           # Download tex.web and a pre-bootstrapped tangle.p from CTAN
-          wget https://mirror.ctan.org/systems/knuth/dist/tex/tex.web
-          wget https://mirrors.ctan.org/systems/knuth/local/web/tangle.p
-          wget https://mirrors.ctan.org/fonts/cm/tfm.zip
-          wget https://mirrors.ctan.org/fonts/manual.zip 
-          wget https://mirrors.ctan.org/fonts/mflogo.zip
+          Invoke-WebRequest -Uri "https://mirror.ctan.org/systems/knuth/dist/tex/tex.web" -OutFile ".\tex.web"
+          Invoke-WebRequest -Uri "https://mirrors.ctan.org/systems/knuth/local/web/tangle.p" -OutFile ".\tangle.p"
+          Invoke-WebRequest -Uri "https://mirrors.ctan.org/fonts/cm/tfm.zip" -OutFile ".\tfm.zip"
+          Invoke-WebRequest -Uri "https://mirrors.ctan.org/fonts/manual.zip" -OutFile ".\manual.zip"
+          Invoke-WebRequest -Uri "https://mirrors.ctan.org/fonts/mflogo.zip" -OutFile ".\mflogo.zip"
+          
           
           unzip tfm.zip
           unzip manual.zip
