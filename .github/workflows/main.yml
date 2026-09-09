@@ -14,16 +14,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-              
-      - uses: gcarreno/setup-lazarus@v3
-        with:
-          lazarus-version: "stable"
-          include-packages: "Synapse 40.1"
-          with-cache: true
 
-      - name: Verify FPC Installation
-        run: fpc -iV
-
+     
       - name: Download Original TeX82 Source Files
         shell: powershell
         run: |
@@ -47,6 +39,16 @@ jobs:
           if (-not (Test-Path "tex.ch")) {
              New-Item -ItemType File -Name "tex.ch" -Force
           }
+
+
+              
+      - uses: gcarreno/setup-lazarus@v3
+        with:
+          lazarus-version: "stable"
+          include-packages: "Synapse 40.1"
+          with-cache: true
+      - name: Verify FPC Installation
+        run: fpc -iV
 
       - name: Compile TANGLE
         run: fpc -O2 -otangle.exe tangle.p
