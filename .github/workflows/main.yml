@@ -14,22 +14,12 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
+              
       - uses: gcarreno/setup-lazarus@v3
-        if: false
         with:
           lazarus-version: "stable"
           include-packages: "Synapse 40.1"
           with-cache: true
-
-
-      - name: Download Original TeX82 Source Files
-        shell: powershell
-        run: |
-          Invoke-WebRequest -Uri "http://downloads.freepascal.org/fpc/dist/3.2.2/i386-win32/fpc-3.2.2.i386-win32.exe" -OutFile ".\fpc-3.2.2.i386-win32.exe"
-          . .\fpc-3.2.2.i386-win32.exe /VERYSILENT /SUPPRESSMSGBOXES /DIR="C:\fpc-extracted"
-          (Get-ChildItem -Path "C:\fpc-extracted" -Recurse).FullName
-      
 
       - name: Verify FPC Installation
         run: fpc -iV
@@ -37,14 +27,15 @@ jobs:
       - name: Download Original TeX82 Source Files
         shell: powershell
         run: |
-          
-          # Download tex.web and a pre-bootstrapped tangle.p from CTAN
-          Invoke-WebRequest -Uri "https://mirror.ctan.org/systems/knuth/dist/tex/tex.web" -OutFile ".\tex.web"
-          Invoke-WebRequest -Uri "https://mirrors.ctan.org/systems/knuth/local/web/tangle.p" -OutFile ".\tangle.p"
           Invoke-WebRequest -Uri "https://mirrors.ctan.org/fonts/cm/tfm.zip" -OutFile ".\tfm.zip"
           Invoke-WebRequest -Uri "https://mirrors.ctan.org/fonts/manual.zip" -OutFile ".\manual.zip"
           Invoke-WebRequest -Uri "https://mirrors.ctan.org/fonts/mflogo.zip" -OutFile ".\mflogo.zip"
           
+          
+          # Download tex.web and a pre-bootstrapped tangle.p from CTAN
+          Invoke-WebRequest -Uri "https://mirror.ctan.org/systems/knuth/dist/tex/tex.web" -OutFile "tex.web"
+          Invoke-WebRequest -Uri "https://mirrors.ctan.org/systems/knuth/local/web/tangle.p" -OutFile "tangle.p"
+
           
           unzip tfm.zip
           unzip manual.zip
