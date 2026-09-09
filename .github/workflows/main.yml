@@ -14,12 +14,11 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-              
-      - uses: gcarreno/setup-lazarus@v3
+
+      - name: Install Free Pascal Compiler
+        uses: fpc-actions/setup-fpc@v2
         with:
-          lazarus-version: "stable"
-          include-packages: "Synapse 40.1"
-          with-cache: true
+          fpc-version: '3.2.2'
 
       - name: Verify FPC Installation
         run: fpc -iV
@@ -27,12 +26,10 @@ jobs:
       - name: Download Original TeX82 Source Files
         shell: powershell
         run: |
-          # Create build directory if it doesn't exist
-          New-Item -ItemType Directory -Force -Path .
           
           # Download tex.web and a pre-bootstrapped tangle.p from CTAN
-          Invoke-WebRequest -Uri "https://mirror.ctan.org/systems/knuth/dist/tex/tex.web" -OutFile "tex.web"
-          Invoke-WebRequest -Uri "https://mirror.ctan.org/systems/knuth/dist/tex/tangle.p" -OutFile "tangle.p"
+          wget https://mirror.ctan.org/systems/knuth/dist/tex/tex.web
+          wget https://mirrors.ctan.org/systems/knuth/local/web/tangle.p
           wget https://mirrors.ctan.org/fonts/cm/tfm.zip
           wget https://mirrors.ctan.org/fonts/manual.zip 
           wget https://mirrors.ctan.org/fonts/mflogo.zip
@@ -64,8 +61,8 @@ jobs:
           fpc -Miso -O2 -omf.exe mf.p
           
 
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload Windows Binary Artifact
+        uses: actions/artifacts@v4
         with:
           name: tex82-windows-binary
           path: .
