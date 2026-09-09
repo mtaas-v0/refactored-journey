@@ -1,0 +1,70 @@
+name: TeX82 Windows Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-windows:
+    name: Build TeX82 Executable
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Free Pascal Compiler
+        uses: fpc-actions/setup-fpc@v2
+        with:
+          fpc-version: '3.2.2'
+
+      - name: Verify FPC Installation
+        run: fpc -iV
+
+      - name: Download Original TeX82 Source Files
+        shell: powershell
+        run: |
+          # Create build directory if it doesn't exist
+          New-Item -ItemType Directory -Force -Path .
+          
+          # Download tex.web and a pre-bootstrapped tangle.p from CTAN
+          Invoke-WebRequest -Uri "https://mirror.ctan.org/systems/knuth/dist/tex/tex.web" -OutFile "tex.web"
+          Invoke-WebRequest -Uri "https://mirror.ctan.org/systems/knuth/dist/tex/tangle.p" -OutFile "tangle.p"
+          wget https://mirrors.ctan.org/fonts/cm/tfm.zip
+          wget https://mirrors.ctan.org/fonts/manual.zip 
+          wget https://mirrors.ctan.org/fonts/mflogo.zip
+          
+          unzip tfm.zip
+          unzip manual.zip
+          unzip mflogo.zip
+          
+          # Optional: Download an FPC-compatible change file if you don't have one in the repo
+          # For a pure Knuth build without changes, you can use a blank or minimal file, 
+          # but usually a .ch file is needed for system terminal I/O.
+          if (-not (Test-Path "tex.ch")) {
+             New-Item -ItemType File -Name "tex.ch" -Force
+          }
+
+      - name: Compile TANGLE
+        run: fpc -O2 -otangle.exe tangle.p
+
+      - name: Tangle TeX Source
+        run: .\tangle.exe tex.web tex.ch tex.p tex.pool
+
+      - name: Compile TeX Executable
+        run: fpc -O2 -otex.exe tex.p
+
+      - name: Tangle and Build METAFONT
+        shell: cmd
+        run: |
+          tangle.exe mf.web mf.ch mf.p mf.pool
+          fpc -Miso -O2 -omf.exe mf.p
+          
+
+      - name: Upload Windows Binary Artifact
+        uses: actions/artifacts@v4
+        with:
+          name: tex82-windows-binary
+          path: .
