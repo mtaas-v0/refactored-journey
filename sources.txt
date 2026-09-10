@@ -1,0 +1,14 @@
+Invoke-WebRequest -Uri "https://mirrors.ctan.org/fonts/cm/tfm.zip" -OutFile ".\tfm.zip"
+Invoke-WebRequest -Uri "https://mirrors.ctan.org/fonts/manual.zip" -OutFile ".\manual.zip"
+Invoke-WebRequest -Uri "https://mirrors.ctan.org/fonts/mflogo.zip" -OutFile ".\mflogo.zip"
+
+
+# Download tex.web and a pre-bootstrapped tangle.p from CTAN
+Invoke-WebRequest -Uri "https://mirror.ctan.org/systems/knuth/dist/tex/tex.web" -OutFile "tex.web"
+Invoke-WebRequest -Uri "https://mirrors.ctan.org/systems/knuth/local/web/tangle.p" -OutFile "tangle.p"
+
+
+----
+
+https://mirrors.ctan.org/systems/unix/tex-fpc/tangle.p
+https://mirrors.ctan.org/systems/unix/tex-fpc/tex.ch

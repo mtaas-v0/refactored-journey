@@ -1,0 +1,59 @@
+fonts/mflogo --- Metafont and MetaPost logo fonts.
+
+Copyright (C) 1979--99 Donald E. Knuth
+
+CTAN distribution compiled by Ulrik Vieth
+
+
+COPYING:
+
+Unless otherwise stated, all files in the subdirectory `mf'
+are official sources of the Metafont and MetaPost `logo' fonts.
+They are distributed under the terms of the file README.KNUTH
+which says:
+
+  [These files] ... are master files for TeX and METAFONT,
+  maintained personally by Donald E. Knuth.  Nobody else is
+  authorized to make any changes whatever to them!  If you
+  modify the files for any purpose, you must give your files
+  a different name, so that installations of TeX throughout
+  the world will be 100% compatible when they use the
+  official source files.
+
+Some unofficial additions to the `logo' fonts are distributed
+under the terms of LaTeX Project Public License as described
+in the relevant files.
+
+
+DESCRIPTION:
+
+This directory and its subdirectories are part of the `mflogo'
+package for LaTeX(2e) that provides access to the Metafont and
+MetaPost `logo' fonts designed by Donald E. Knuth.
+
+This directory appears on CTAN archives in two different places:
+
+  CTAN:fonts/mflogo
+  CTAN:macros/latex/contrib/supported/mflogo/fonts
+
+Whatever it may be, this directory contains two subdirectories
+`mf' and `tfm' that hold the Metafont sources and font metrics
+of the Metafont and MetaPost `logo' fonts.
+
+To access the `logo' fonts in LaTeX(2e), you may wish to consult
+the `mflogo' package in CTAN:macros/latex/contrib/supported.
+
+
+INSTALLATION:
+
+- If you have a TDS-compatible TeX installation, you may try to
+  use the enclosed `Makefile' by calling:
+
+    make install
+
+- For manual installation, copy the contents of the subdirectories
+  `mf' and `tfm' to TEXMF/fonts/{source,tfm}/public/mflogo or
+  wherever else your installation keeps .mf sources and .tfm files.
+
+
+Happy TeXing!
